@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>상점</title>
+    <!-- PortOne(Iamport) 스크립트 추가. 이는 JQuery 기반이므로, JQuery CDN도 함께 추가 -->
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
         var IMP = window.IMP;
-        IMP.init('[[${clientCode}]]');
+        IMP.init('[[${clientCode}]]'); // 가맹점 식별코드
 
         function payNow() {
-
             var customerName = '[[${paymentInfo.customerName}]]';
             var customerEmail = '[[${paymentInfo.customerEmail}]]';
             var customerAddress = '[[${paymentInfo.customerAddress}]]';
@@ -19,8 +19,8 @@
             var orderUid = '[[${paymentInfo.orderUid}]]';
 
             IMP.request_pay({
-                    pg: 'html5_inicis.INIpayTest',
-                    pay_method: 'card',
+                    pg: 'html5_inicis.INIpayTest', // 등록된 pg사
+                    pay_method: 'card', // 결제 방식
                     buyer_name: customerName, // 구매자 이름
                     buyer_email: customerEmail, // 구매자 이메일
                     buyer_addr: customerAddress, // 구매자 주소
@@ -42,9 +42,14 @@
                                 "order_uid": rsp.merchant_uid   // 주문 고유 번호
                             })
                         }).done(function () {
+                            // 검증 성공 시, 성공 페이지로 이동
                             window.location.href = "/success-payment";
+                        }).fail(function () {
+                            // 검증 실패 시, 실패 페이지로 이동
+                            window.location.href = "/fail-payment";
                         })
                     } else {
+                        // 결제 자체가 실패한 경우 바로 실패 페이지로 이동
                         window.location.href = "/fail-payment";
                     }
                 });
