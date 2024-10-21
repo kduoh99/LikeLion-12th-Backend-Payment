@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    active: prod
+
+  datasource:
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: ${spring.datasource.driver-class-name}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    open-in-view: false
+
+imp:
+  api:
+    client-code: ${IMP_API_CLIENT_CODE}
+    key: ${IMP_API_KEY}
+    secret-key: ${IMP_API_SECRET_KEY}
